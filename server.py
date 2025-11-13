@@ -34,7 +34,7 @@ while True:
     message = json.loads(data.decode())
     mac = message.get("mac")
 
-    print(f"\n[REQUEST] From {mac} ({addr})")
+    print(f"\n[REQUEST] From {mac}")
 
     assigned_ip = assign_ip(mac)
     if assigned_ip:
@@ -50,3 +50,9 @@ while True:
 
     server.sendto(json.dumps(reply).encode(), (addr[0], 68))
     print(f"[REPLY SENT] To {addr[0]}:68")
+    
+    print("Current Leases:")
+    print("  MAC Address       | Assigned IP")
+    for key, value in leased.items():
+        if key != "message":
+            print(f"  {key} | {value}")

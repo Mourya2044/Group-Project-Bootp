@@ -9,10 +9,11 @@ SERVER_PORT = 67
 BUFFER_SIZE = 1024
 
 # Generate random MAC for demonstration
-def random_mac():
-    return "AA:BB:CC:DD:EE:{:02X}".format(random.randint(1, 99))
+def get_mac():
+    addr = input("Enter a MAC address (format- AA:BB:CC:DD:EE:FF): ")
+    return addr.strip()
 
-client_mac = random_mac()
+client_mac = get_mac()
 
 # Create UDP Socket
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -30,15 +31,15 @@ try:
     reply = json.loads(data.decode())
 
     if reply["message"] == "BOOTREPLY":
-        print("\n✅ BOOTREPLY received:")
+        print("\nBOOTREPLY received:")
         print(f"Assigned IP   : {reply['ip']}")
         print(f"Gateway       : {reply['gateway']}")
         print(f"Boot File     : {reply['bootfile']}")
     else:
-        print("\n❌ Server reply:", reply["message"])
+        print("\nServer reply:", reply["message"])
 
 except socket.timeout:
-    print("\n❌ No BOOTREPLY received (timeout).")
+    print("\nNo BOOTREPLY received (timeout).")
 
 finally:
     client.close()
